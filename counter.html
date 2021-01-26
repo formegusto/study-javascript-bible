@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>Counter</title>
+</head>	
+<body>
+	<h1 id="counter"></h1>
+	<button type="button" onclick="increase()">+</button>
+	<button type="button" onclick="decrease()">-</button>
+<script>
+	const $counter = document.getElementById('counter');
+	const $incBtn = document.getElementById('increase');
+	const $decBtn = document.getElementById('decrease');
+
+	let num = 0;
+	const render = () => { $counter.innerHTML = num };
+
+	const increase = () => {
+		num++;
+		render();
+	};
+
+	const decrease = () => {
+		num--;
+		render();
+	};
+
+	render();
+</script>
+</body>
+</html>
