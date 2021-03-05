@@ -38,3 +38,37 @@ console.log(string);
 
 var template = `Template literal`;
 console.log(template);
+
+var template_1 = '<ul>\n\t<li><a href="#">Home</a></li>\n</ul>';
+console.log(template_1);
+
+var template_2 = `<ul>
+    <li><a href="#">Home</a><li>
+</ul>
+`;
+console.log(template_2);
+
+var first = "Ung-mo";
+var last = "Lee";
+// ES5 문자열 연결
+console.log("My name is " + first + " " + last + ".");
+
+// ES6 표현식 삽입
+console.log(`My name is ${first} ${last}.`);
+
+var foo;
+console.log(foo); // undefined
+
+var Key = Symbol("key");
+console.log(typeof Key);
+
+var obj = {};
+
+// 이름이 충돌할 위험이 없는 유일무이한 값인 심벌을 프로퍼티 키로 사용한다.
+obj[Key] = "value";
+console.log(obj[Key]);
+
+var score = 100;
+// 자바스크립트 엔진은 리터럴 100을 숫자 타입의 값으로 해석하고,
+// 숫자 타입의 값 100을 저장하기 위해 8바이트의 메모리 공간을 확보한다.
+// 그리고 100을 2진수로 저장한다.
