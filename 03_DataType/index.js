@@ -72,3 +72,30 @@ var score = 100;
 // 자바스크립트 엔진은 리터럴 100을 숫자 타입의 값으로 해석하고,
 // 숫자 타입의 값 100을 저장하기 위해 8바이트의 메모리 공간을 확보한다.
 // 그리고 100을 2진수로 저장한다.
+
+var foo;
+console.log(typeof foo); // undefined
+
+foo = 3;
+console.log(typeof foo); // number
+
+foo = "Hello";
+console.log(typeof foo); // string
+
+foo = true;
+console.log(typeof foo); // boolean
+
+foo = null;
+console.log(typeof foo); // object
+
+foo = Symbol();
+console.log(typeof foo); // symbol
+
+foo = {};
+console.log(typeof foo); // object
+
+foo = [];
+console.log(typeof foo); // object
+
+foo = function () {};
+console.log(typeof foo); // function
