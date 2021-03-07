@@ -119,4 +119,65 @@ console.log(-0 === +0); // true
 console.log(Object.is(-0, +0)); // false
 
 console.log(NaN === NaN); // false
-console.log(Object.is(NaN, NaN)); // false
+console.log(Object.is(NaN, NaN)); // true
+
+// 삼항 조건 연산자
+var x = 2;
+
+// 2 % 2 는 0이고 0은 false로 암묵적으로 타입 변환된다.
+var result = x % 2 ? "홀수" : "짝수";
+console.log(result);
+
+if (x % 2) result = "홀수";
+else result = "짝수";
+console.log(result);
+
+// if ...else 문은 표현식이 아니고 문이므로, 따라서 값처럼 사용할 수 없다.
+// var result = if (x % 2) { result = "홀수" }
+// else { result = "짝수" };
+
+console.log(!0); // -> true
+console.log(!"Hello"); // -> false
+
+// 단축 평가
+console.log("Cat" && "Dog"); // -> Dog
+
+var x, y, z;
+(x = 1), (y = 2), (z = 3); // -> 3
+
+// typeof 연산자
+console.log(typeof ""); // string
+console.log(typeof 1); // number
+console.log(typeof NaN); // number
+console.log(typeof true); // boolean
+console.log(typeof undefined); // undefined
+console.log(typeof Symbol()); // symbol
+console.log(typeof null); // object
+console.log(typeof []); // object
+console.log(typeof {}); // object
+console.log(typeof new Date()); // object
+console.log(typeof /test/gi); // object
+console.log(typeof function () {}); // function
+
+console.log(2 ** 2); // 4
+console.log(2 ** 2.5); // 5.65685424949238
+console.log(2 ** 0); // 1
+console.log(2 ** -2); // 0.25
+
+console.log((-5) ** 2); // 25
+
+// 연산자의 부수효과
+var x;
+
+// 할당연산자
+x = 1;
+console.log(x); // 1
+
+// 증가/감소 연산자
+x++;
+console.log(x); // 2
+
+// delete 연산자, 객체의 프로퍼티를 삭제하는 부수 효과가 있다.
+var o = { a: 1 };
+delete o.a;
+console.log(o); // {}
