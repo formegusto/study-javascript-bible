@@ -204,4 +204,64 @@ function outer() {
 
   inner();
 }
-outer();
+outer(); // 3
+
+// n 만큼 어떤 일을 반복한다.
+function repeat(n) {
+  // i를 출력한다.
+  for (var i = 0; i < n; i++) console.log(i);
+}
+repeat(5); // 0 1 2 3 4
+
+function repeatOne(n) {
+  // i를 반복한다.
+  for (var i = 0; i < n; i++) console.log(i);
+}
+repeatOne(5); // 0 1 2 3 4
+
+function repeatTwo(n) {
+  // i가 홀수일 때만 출력한다.
+  for (var i = 0; i < n; i++) {
+    if (i % 2) console.log(i);
+  }
+}
+repeatTwo(5); // 1 3
+
+// 외부에서 전달받은 f를 n만큼 반복 호출한다.
+function repeatInCallback(n, f) {
+  for (var i = 0; i < n; i++) f(i); // i를 전달하면서 f를 호출
+}
+
+var logAll = function (i) {
+  console.log(i);
+};
+repeatInCallback(5, logAll); // 0 1 2 3 4
+
+var logOdds = function (i) {
+  if (i % 2) console.log(i);
+};
+repeatInCallback(5, logOdds); // 1 3
+
+// 익명 함수 리터럴을 콜백 함수로 고차 함수에 전달한다.
+// 익명 함수 리터럴은 repeat 함수를 호출할 때마다 평가되어 함수 객체를 반환한다.
+repeatInCallback(10, function (i) {
+  if (!(i % 2)) console.log(i);
+}); // 0 2 4 6 8
+
+var count = 0;
+
+// 순수 함수
+function pureIncrease(count) {
+  return ++count;
+}
+count = pureIncrease(count);
+console.log(count); // 1
+pureIncrease(count);
+console.log(count); // 1
+
+// 비순수 함수
+function impureIncrease() {
+  return ++count;
+}
+impureIncrease();
+console.log(count); // 2;
