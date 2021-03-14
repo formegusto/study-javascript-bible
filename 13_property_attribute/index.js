@@ -98,3 +98,147 @@
   console.log(Object.getOwnPropertyDescriptor(function () {}, "prototype"));
   //   { value: {}, writable: true, enumerable: false, configurable: false }
 }
+
+{
+  const person = {};
+
+  // 데이터 프로퍼티 정의
+  Object.defineProperty(person, "firstName", {
+    value: "Ungmo",
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+
+  Object.defineProperty(person, "lastName", {
+    value: "Lee",
+  });
+
+  console.log(Object.getOwnPropertyDescriptor(person, "firstName"));
+  console.log(Object.getOwnPropertyDescriptor(person, "lastName"));
+  // Descriptor 객체의 프로퍼티를 누락시키면 , undefined, false 가 기본값이다.
+
+  // [[writeable]] 의 값이 false 이므로, 키 조회를 할 수 없다
+  console.log(Object.keys(person)); // [ 'firstName' ]
+  // 무시되는 로직
+  person.lastName = "Kim";
+  console.log(person.lastName); // Lee
+
+  // [[Configurable]] 의 값이 false인 경우 해당 프로퍼티를 삭제할 수 없다.
+  delete person.lastName;
+  console.log(Object.getOwnPropertyDescriptor(person, "lastName"));
+  // 또한, 프로퍼티를 재정의할 수 없다.
+}
+
+{
+  // 접근자 프로퍼티 정의
+  const person = {
+    firstName: "no",
+    lastName: "th",
+  };
+  Object.defineProperty(person, "fullName", {
+    get() {
+      return `${this.firstName} ${this.lastName}`;
+    },
+    set(name) {
+      this.firstName = name.split(" ")[0];
+      this.lastName = name.split(" ")[1];
+    },
+    enumerable: true,
+    configurable: true,
+  });
+
+  console.log(person.fullName);
+
+  person.fullName = "forme gusto";
+  console.log(person.fullName);
+}
+
+{
+  const person = {};
+
+  Object.defineProperties(person, {
+    firstName: {
+      value: "Ungmo",
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    },
+    lastName: {
+      value: "Lee",
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    },
+    fullName: {
+      get() {
+        return `${this.firstName} ${this.lastName}`;
+      },
+      set(name) {
+        this.firstName = name.split(" ")[0];
+        this.lastName = name.split(" ")[1];
+      },
+      enumerable: true,
+      configurable: true,
+    },
+  });
+
+  console.log(person);
+}
+
+{
+  const person = {
+    name: "Lee",
+  };
+  console.log(Object.isExtensible(person)); // true
+  Object.preventExtensions(person);
+  console.log(Object.isExtensible(person)); // false
+
+  person.age = 12;
+  console.log(person); // { name: 'Lee' }
+}
+
+{
+  const person = {
+    name: "Lee",
+  };
+  console.log(Object.isSealed(person)); // false
+  Object.seal(person);
+  console.log(Object.isSealed(person)); // true
+
+  person.age = 12;
+  console.log(person); // { name: 'Lee' }
+}
+
+{
+  const person = {
+    name: "Lee",
+  };
+  console.log(Object.isFrozen(person)); // false
+  Object.freeze(person);
+  console.log(Object.isFrozen(person)); // true
+
+  person.age = 12;
+  console.log(person); // { name: 'Lee' }
+}
+
+{
+  function deepFreeze(target) {
+    if (target && typeof target === "object" && !Object.isFrozen(target)) {
+      Object.freeze(target);
+
+      Object.keys(target).forEach((key) => deepFreeze(target[key]));
+    }
+
+    return target;
+  }
+
+  const person = {
+    name: "Lee",
+    address: { city: "Seoul" },
+  };
+  deepFreeze(person);
+
+  console.log(Object.isFrozen(person)); // true
+  console.log(Object.isFrozen(person.address)); // true
+}
