@@ -198,3 +198,160 @@
   obj = new Object(123);
   console.log(obj); // [Number: 123]
 }
+
+{
+  // 함수 정의(constructor)가 평가되어 함수 객체를 생성하는 시점에 프로토타입도 더불어 생성된다.
+  console.log(Person.prototype); // {constructor: f}
+
+  // 생성자 함수
+  function Person(name) {
+    this.name = name;
+  }
+
+  // 화살표 함수는 non-constructor로 프로토타입이 생성되지 않는다.
+  const Person2 = (name) => {
+    this.name = name;
+  };
+  console.log(Person2.prototype); // undefined
+
+  console.log(Person.__proto__ === Object.__proto__); // true
+
+  console.log(Object.prototype.constructor === Object); // true
+}
+
+{
+  const obj = { x: 1 };
+
+  console.log(obj.__proto__.constructor === Object); // true
+  // constructor는 Object.prototype 으로 상속받았다.
+  console.log(obj.constructor === Object); // true
+}
+
+{
+  const obj = new Object();
+  obj.x = 1;
+
+  console.log(obj.__proto__.constructor === Object); // true
+  // constructor는 Object.prototype 으로 상속받았다.
+  console.log(obj.constructor === Object); // true
+}
+
+{
+  function Person(name) {
+    this.name = name;
+  }
+
+  Person.prototype.sayHello = function () {
+    console.log(`안녕하세요! 저는 ${this.name} 입니다!`);
+  };
+  const me = new Person("me");
+  me.sayHello(); // 안녕하세요! 저는 me 입니다!
+}
+
+{
+  function Person(name) {
+    this.name = name;
+  }
+
+  // 프로토타입 메서드
+  Person.prototype.sayHello = function () {
+    console.log(`Hi! My name is ${this.name}`);
+  };
+
+  const me = new Person("No");
+
+  console.log(me.hasOwnProperty("name")); // true
+
+  console.log(Object.getPrototypeOf(me) === Person.prototype); // true
+  console.log(Person.__proto__ === Function.prototype); // true
+  console.log(Function.__proto__ === Object.__proto__); // true
+  console.log(Object.getPrototypeOf(Person.prototype) === Object.prototype); // true
+
+  Object.prototype.hasOwnProperty.call(me, "name");
+}
+
+{
+  const Person = (function () {
+    // 생성자 함수
+    function Person(name) {
+      this.name = name;
+    }
+
+    // 프로토타입 메서드
+    Person.prototype.sayHello = function () {
+      console.log(`안녕하세요! 저는 ${this.name} 입니다!`);
+    };
+
+    return Person;
+  })();
+
+  const me = new Person("No");
+
+  // 인스턴스 메서드
+  me.sayHello = function () {
+    console.log(`요요 워럽! 나는 ${this.name} 이다!`);
+  };
+
+  me.sayHello(); // 요요 워럽! 나는 No 이다!
+  me.__proto__.sayHello(); // 안녕하세요! 저는 undefined 입니다!
+
+  delete me.sayHello;
+  me.sayHello(); // 안녕하세요! 저는 No 입니다!
+
+  Person.prototype.sayHello = function () {
+    console.log(`차차차! 반갑다! 나는 ${this.name} 이다!`);
+  };
+  me.sayHello(); // 차차차! 반갑다! 나는 No 이다!
+
+  delete Person.prototype.sayHello;
+  // me.sayHello(); // TypeError: me.sayHello is not a function
+}
+
+{
+  const Person = (function () {
+    function Person(name) {
+      this.name = name;
+    }
+
+    Person.prototype = {
+      constructor: Person,
+      sayHello() {
+        console.log(`아 자기 소개 그만...${this.name}`);
+      },
+    };
+
+    return Person;
+  })();
+
+  const me = new Person("No");
+
+  console.log(me.constructor === Person); // true
+  console.log(me.constructor === Object); // false
+}
+
+{
+  function Person(name) {
+    this.name = name;
+  }
+
+  const me = new Person("No");
+  console.log(Object.getPrototypeOf(me));
+
+  // 프로토타입으로 교체할 객체
+  const parent = {
+    constructor: Person,
+    sayHello() {
+      console.log(`나는 부모고, 너는 ${this.name}이야.`);
+    },
+  };
+  Person.prototype = parent;
+  console.log(Object.getPrototypeOf(me));
+
+  // 프로토타입 교체
+  Object.setPrototypeOf(me, parent);
+  me.sayHello();
+  console.log(Object.getPrototypeOf(me));
+
+  console.log(me.constructor === Person); // true
+  console.log(Object.getPrototypeOf(me) === Person.prototype); // true
+}
