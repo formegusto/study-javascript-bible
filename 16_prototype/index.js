@@ -344,6 +344,7 @@
       console.log(`나는 부모고, 너는 ${this.name}이야.`);
     },
   };
+  // 생성자 함수의 prototype 프로퍼티와 프로토타입 간의 연결을 설정
   Person.prototype = parent;
   console.log(Object.getPrototypeOf(me));
 
@@ -354,4 +355,101 @@
 
   console.log(me.constructor === Person); // true
   console.log(Object.getPrototypeOf(me) === Person.prototype); // true
+}
+
+{
+  // 생성자 함수
+  function Person(name) {
+    this.name = name;
+  }
+
+  const me = new Person("Lee");
+
+  console.log(me instanceof Person); // true
+  console.log(me instanceof Object); // true
+
+  // 프로토타입 교체
+  const parent = {};
+  Object.setPrototypeOf(me, parent);
+
+  // 프로토타입 체인 상에 존재하지 않기 때문에 false 반환
+  console.log(me instanceof Person); // false
+  console.log(me instanceof Object); // true
+
+  // 생성자 함수의 프로토타입을 연결해주면
+  Person.prototype = parent;
+  // true를 반환한다.
+  console.log(me instanceof Person); // true
+  console.log(me instanceof Object); // true
+
+  function isInstanceof(instance, constructor) {
+    // Get Prototype
+    const prototype = Object.getPrototypeOf(instance);
+
+    // 재귀 탈출 조건
+    // prototype이 null 이면 프로토타입 체인의 종점에 다다른 것이다.
+    if (!prototype) return false;
+
+    // 프로토타입이 생성자 함수의 prototype 프로퍼티에 바인딩된 객체라면 true를 반환한다.
+    return (
+      prototype === constructor.prototype ||
+      isInstanceof(prototype, constructor)
+    );
+  }
+
+  console.log(isInstanceof(me, Person)); // true
+  console.log(isInstanceof(me, Object)); // true
+  console.log(isInstanceof(me, Array)); // false
+}
+
+{
+  // 프로토타입이 null인 객체를 생성
+  // 생성된 객체는 프로토타입 체인의 종점에 위치한다.
+  let obj = Object.create(null);
+  console.log(Object.getPrototypeOf(obj) === null); // true
+  // Object.prototype을 상속받지 못한다.
+  // console.log(obj.toString()); // TypeError: obj.toString is not a function
+
+  // obj = {} 와 동일하다.
+  obj = Object.create(Object.prototype);
+  console.log(Object.getPrototypeOf(obj) === Object.prototype); // true
+
+  // obj = { x: 1 } 와 동일하다.
+  obj = Object.create(Object.prototype, {
+    x: { value: 1, writable: true, enumerable: true, configurable: true },
+  });
+  console.log(obj.x); // 1
+  console.log(Object.getPrototypeOf(obj) === Object.prototype); // true
+
+  const myProto = { x: 10 };
+  // 임의의 객체를 직접 상속받는다.
+  obj = Object.create(myProto);
+  console.log(obj.x); // 10
+  console.log(Object.getPrototypeOf(obj) === myProto); // true
+
+  function Person(name) {
+    this.name = name;
+  }
+  // obj = new Person('Lee')와 동일하다.
+  obj = Object.create(Person.prototype);
+  obj.name = "Lee";
+  console.log(obj.name); // Lee
+  console.log(Object.getPrototypeOf(obj) === Person.prototype); // true
+
+  obj = Object.create(null);
+  obj.a = 1;
+
+  console.log(Object.prototype.hasOwnProperty.call(obj, "a")); // true
+}
+
+{
+  const myProto = { x: 10 };
+
+  const obj = {
+    y: 20,
+    __proto__: myProto,
+  };
+
+  console.log(obj.x, obj.y); // 10 20
+  console.log(Object.getPrototypeOf(obj) === myProto); // true
 }
