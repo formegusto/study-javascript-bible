@@ -453,3 +453,138 @@
   console.log(obj.x, obj.y); // 10 20
   console.log(Object.getPrototypeOf(obj) === myProto); // true
 }
+
+{
+  function Person(name) {
+    this.name = name;
+  }
+
+  Person.prototype.sayHello = function () {
+    console.log(`hihihi ${this.name}`);
+  };
+
+  Person.staticProp = "static prop";
+
+  Person.staticMethod = function () {
+    console.log("static method");
+  };
+
+  const me = new Person("No");
+
+  Person.staticMethod(); // static method
+  console.log(Person.staticProp); // static prop
+}
+
+{
+  const person = {
+    name: "Lee",
+    address: "Seoul",
+  };
+
+  console.log("name" in person); // true
+  console.log("address" in person); // true
+  console.log("age" in person); // false
+  console.log("toString" in person); // true
+
+  console.log(Reflect.has(person, "name")); // true
+  console.log(Reflect.has(person, "toString")); // true
+  console.log(Reflect.has(person, "age")); // false
+
+  console.log(Object.prototype.hasOwnProperty.call(person, "name")); // true
+  console.log(Object.prototype.hasOwnProperty.call(person, "age")); // false
+  console.log(Object.prototype.hasOwnProperty.call(person, "toString")); // false
+}
+
+{
+  const person = {
+    name: "No",
+    address: "Seoul",
+  };
+
+  for (const key in person) {
+    console.log(key + ": " + person[key]);
+  }
+  // name: No
+  // address: Seoul
+}
+
+{
+  const sym = Symbol();
+  const person = {
+    name: "Lee",
+    address: "Seoul",
+    [sym]: 10,
+  };
+
+  for (const key in person) console.log(key + ": " + person[key]);
+  // name: Lee
+  // address: Seoul
+}
+
+{
+  const sym = Symbol();
+  const person = {
+    name: "Lee",
+    address: "Seoul",
+    [sym]: 10,
+    __proto__: { age: 20 },
+  };
+
+  for (const key in person) {
+    if (person.hasOwnProperty(key)) console.log(key + ": " + person[key]);
+  }
+  // name: Lee
+  // address: Seoul
+
+  const obj = {
+    2: 2,
+    3: 3,
+    1: 1,
+    b: "b",
+    a: "a",
+  };
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) console.log(key + ": " + obj[key]);
+  }
+  // 1: 1
+  // 2: 2
+  // 3: 3
+  // b: b
+  // a: a
+}
+
+{
+  const arr = [1, 2, 3];
+  arr.x = 10; // 가질 수 있음
+
+  for (const i in arr) {
+    // 프로퍼티도 출력될 수 있다.
+    console.log(arr[i]); // 1 2 3 10
+  }
+
+  for (let i = 0; i < arr.length; i++) console.log(arr[i]); // 1 2 3
+
+  arr.forEach((v) => console.log(v)); // 1 2 3
+
+  // for ...of는 변수 선언문에서 선언한 변수에 키가 아닌 값을 할당한다.
+  for (const value of arr) console.log(value); // 1 2 3
+}
+
+{
+  const person = {
+    name: "Lee",
+    address: "Seoul",
+    __proto__: { age: 20 },
+  };
+
+  console.log(Object.keys(person));
+  // [ 'name', 'address' ]
+  console.log(Object.values(person));
+  // [ 'Lee', 'Seoul' ]
+  console.log(Object.entries(person));
+  // [ [ 'name', 'Lee' ], [ 'address', 'Seoul' ] ]
+  Object.entries(person).forEach(([key, value]) => console.log(key, value));
+  // name Lee
+  // address Seoul
+}
