@@ -129,68 +129,155 @@
 }
 
 {
-  value = 1;
-
-  const obj = {
-    value: 100,
-    foo() {
-      console.log("foo's this: " + this); // [object object] === obj
-      // 콜백 함수 내부의 this에는 전역 객체가 바인딩된다.
-      setTimeout(function () {
-        console.log("callback's this: " + this); // 5
-        console.log("callback's this.value: " + this.value); // undefined
-      }, 100);
-    },
-  };
-
-  obj.foo();
+  //   value = 1;
+  //   const obj = {
+  //     value: 100,
+  //     foo() {
+  //       console.log("foo's this: " + this); // [object object] === obj
+  //       // 콜백 함수 내부의 this에는 전역 객체가 바인딩된다.
+  //       setTimeout(function () {
+  //         console.log("callback's this: " + this); // 5
+  //         console.log("callback's this.value: " + this.value); // undefined
+  //       }, 100);
+  //     },
+  //   };
+  //   obj.foo();
 }
 
 {
-  value = 1;
-
-  const obj = {
-    value: 100,
-    foo() {
-      const that = this;
-      setTimeout(function () {
-        console.log(that); // { value: 100, foo: [Function: foo] }
-        console.log(that.value); // 100
-      }, 100);
-    },
-  };
-
-  obj.foo();
+  //   value = 1;
+  //   const obj = {
+  //     value: 100,
+  //     foo() {
+  //       const that = this;
+  //       setTimeout(function () {
+  //         console.log(that); // { value: 100, foo: [Function: foo] }
+  //         console.log(that.value); // 100
+  //       }, 100);
+  //     },
+  //   };
+  //   obj.foo();
 }
 
 {
-  value = 1;
-
-  const obj = {
-    value: 100,
-    foo() {
-      setTimeout(
-        function () {
-          console.log(this); // { value: 100, foo: [Function: foo] }
-          console.log(this.value); // 100
-        }.bind(this),
-        100
-      );
-    },
-  };
-
-  obj.foo();
+  //   value = 1;
+  //   const obj = {
+  //     value: 100,
+  //     foo() {
+  //       setTimeout(
+  //         function () {
+  //           console.log(this); // { value: 100, foo: [Function: foo] }
+  //           console.log(this.value); // 100
+  //         }.bind(this),
+  //         100
+  //       );
+  //     },
+  //   };
+  //   obj.foo();
 }
 
 {
-  value = 1;
+  //   value = 1;
+  //   const obj = {
+  //     value: 100,
+  //     foo() {
+  //       setTimeout(() => console.log(this.value), 100); // 100
+  //     },
+  //   };
+  //   obj.foo();
+}
 
-  const obj = {
-    value: 100,
-    foo() {
-      setTimeout(() => console.log(this.value), 100);
+{
+  const person = {
+    name: "Lee",
+    getName() {
+      return this.name;
+    },
+  };
+  console.log(person.getName()); // Lee
+
+  const anotherPerson = {
+    name: "Kim",
+  };
+  anotherPerson.getName = person.getName;
+  console.log(person.getName()); // Lee
+  console.log(anotherPerson.getName()); // Kim
+}
+
+{
+  function Person(name) {
+    this.name = name;
+  }
+  Person.prototype.getName = function () {
+    return this.name;
+  };
+  const me = new Person("no");
+  console.log(me.getName()); // no;
+
+  Person.prototype.name = "ch";
+  console.log(me.getName()); // no
+  console.log(Person.prototype.getName()); // ch
+}
+
+{
+  function Circle(radius) {
+    this.radius = radius;
+    this.getDiameter = function () {
+      return 2 * this.radius;
+    };
+  }
+
+  const circle1 = new Circle(10);
+  const circle2 = new Circle(20);
+
+  console.log(circle1.getDiameter()); // 20
+  console.log(circle2.getDiameter()); // 40
+}
+
+{
+  function getThisBinding() {
+    console.log(arguments);
+    return this;
+  }
+  const thisArg = { a: 1 };
+
+  console.log(getThisBinding()); // global
+  console.log(getThisBinding.apply(thisArg, [1, 2, 3])); // [Arguments] { '0': 1, '1': 2, '2': 3 } { a: 1 }
+  console.log(getThisBinding.call(thisArg, 1, 2, 3)); // [Arguments] { '0': 1, '1': 2, '2': 3 } { a: 1 }
+}
+
+{
+  function convertArgsToArray() {
+    console.log(arguments);
+
+    const arr = Array.prototype.slice.call(arguments);
+    console.log(arr);
+
+    return arr;
+  }
+
+  console.log(convertArgsToArray(1, 2, 3)); // [1,2,3]
+}
+
+{
+  function getThisBinding() {
+    return this;
+  }
+
+  const thisArg = { a: 1 };
+  console.log(getThisBinding.bind(thisArg)); // [Function: bound getThisBinding]
+  // bind 메서드는 함수를 호출하지는 않으므로 명시적으로 호출해야 한다.
+  console.log(getThisBinding.bind(thisArg)()); // { a: 1 }
+
+  const person = {
+    name: "Lee",
+    foo(callback) {
+      // bind 메서드로 callback 함수 내부의 this 바인딩을 전달
+      setTimeout(callback.bind(this), 100);
     },
   };
 
-  obj.foo();
+  person.foo(function () {
+    console.log(`Hi! My name is ${this.name}`);
+  });
 }
