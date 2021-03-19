@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closure</title>
+</head>
+<body>
+    <script>
+        function foo() {
+            const x = 1;
+            const y = 2;
+
+            // bar 함수는 클로저였지만 곧바로 소멸한다.
+            // 이러한 함수는 일반적으로 클로저라고 하지 않는다.
+            function bar() {
+                // 상위 스코프의 식별자를 참조한다.
+                debugger;
+                console.log(x);
+            }
+
+            bar();
+        }
+        
+        foo();
+    </script>
+</body>
+</html>
