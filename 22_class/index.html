@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="btn">0</button>
+    <script>
+        class App {
+            constructor() {
+                this.$button = document.querySelector(".btn");
+                this.count = 0;
+
+                // 이벤트 핸들러 내부의 this는 DOM 요소를 가리킨다.
+                // 하지만 increase는 화살표 함수로 정의되어 있으므로
+                // increase 내부의 this는 인스턴스를 가리킨다.
+                this.$button.onclick = this.increase;
+            }
+
+            // 인스턴스 메서드
+            // 화살표 함수 내부의 this는 언제나 상위 컨텍스트의 this를 가리킨다.
+            // 일반 함수는 전역 객체를 무조건 가리키고,
+            // 화살표 함수는 상의 컨텍스트
+            increase = () => this.$button.textContent = ++this.count;
+        }
+
+        new App();
+    </script>
+</body>
+</html>
