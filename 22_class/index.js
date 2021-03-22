@@ -641,3 +641,53 @@ const colorRectangle = new ColorRectangle(2, 4, "red");
 console.log(colorRectangle); // ColorRectangle { width: 2, height: 4, color: 'red' }
 console.log(colorRectangle.getArea()); // 8
 console.log(colorRectangle.toString()); // width = 2, height = 4, color = red
+
+// class MyArray extends Array {
+//   // 중복된 배열 요소를 제거하고 반환한다.
+//   uniq() {
+//     return this.filter((v, i, self) => self.indexOf(v) === i);
+//   }
+
+//   // 모든 배열 요소의 평균을 구한다: [1,2,3] => 2
+//   average() {
+//     return this.reduce((pre, cur) => pre + cur, 0) / this.length;
+//   }
+// }
+
+// const myArray = new MyArray(1, 1, 2, 3);
+// console.log(myArray); // MyArray(4) [ 1, 1, 2, 3 ]
+
+// console.log(myArray.uniq()); // MyArray(3) [ 1, 2, 3 ]
+// console.log(myArray.average()); // 1.75
+
+// // 메서드 체이닝
+// // filter =[1,1,3]=> uniq =[1,3]=> average =4=>
+// console.log(
+//   myArray
+//     .filter((v) => v % 2)
+//     .uniq()
+//     .average()
+// ); // 2
+
+class MyArray extends Array {
+  // 모든 메서드가 Array 타입의 인스턴스를 반환하도록한다.
+  static get [Symbol.species]() {
+    return Array;
+  }
+
+  // 중복된 배열 요소를 제거하고 반환한다.
+  uniq() {
+    return this.filter((v, i, self) => self.indexOf(v) === i);
+  }
+
+  // 모든 배열 요소의 평균을 구한다: [1,2,3] => 2
+  average() {
+    return this.reduce((pre, cur) => pre + cur, 0) / this.length;
+  }
+}
+
+const myArray = new MyArray(1, 1, 2, 3);
+console.log(myArray); // MyArray(4) [ 1, 1, 2, 3 ]
+
+console.log(myArray.uniq()); // [ 1, 2, 3 ]
+console.log(myArray.average()); // 1.75
