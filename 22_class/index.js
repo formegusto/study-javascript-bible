@@ -479,3 +479,165 @@ console.log(bird.fly()); // fly
 
 console.log(Object.getOwnPropertyDescriptors(bird.__proto__));
 console.log(Object.getOwnPropertyDescriptors(new Lion(2, 3).__proto__));
+
+// // 생성자 함수
+// function Base(a) {
+//   this.a = a;
+// }
+
+// class Derived extends Base {}
+// const derived = new Derived(1);
+// console.log(derived); // Derived { a: 1 }
+
+// function Base1() {}
+// class Base2 {}
+// let condition = true;
+
+// class Derived extends (condition ? Base1 : Base2) {}
+// const derived = new Derived();
+// console.log(derived); // Derived {}
+// console.log(derived instanceof Base1); // true
+// console.log(derived instanceof Base2); // false
+
+// // 수퍼 클래스
+// class Base {}
+
+// // 서브 클래스
+// class Derived extends Base {
+//   // 암묵적으로 생성된다.
+//   constructor(...args) {
+//     super(...args);
+//   }
+// }
+
+// const derived = new Derived();
+// console.log(derived);
+
+// // 수퍼클래스
+// class Base {
+//   constructor(a, b) {
+//     // 4
+//     this.a = a; // 5
+//     this.b = b; //  6
+//   }
+// }
+
+// // 서브 클래스
+// class Derived extends Base {
+//   constructor(a, b, c) {
+//     // 2
+//     super(a, b); // 3
+//     this.c = c; // 7
+//   }
+// }
+
+// const derived = new Derived(1, 2, 3); // 1
+// console.log(derived); // Derived { a: 1, b: 2, c: 3 }
+
+// class Base {}
+// class Derived extends Base {
+//   constructor() {
+//     // ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+//     console.log("constructor call");
+//   }
+// }
+// const derived = new Derived();
+
+// class Base {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   sayHi() {
+//     return `Hi ${this.name} (is Super)`;
+//   }
+// }
+
+// class Derived extends Base {
+//   sayHi() {
+//     const __super = Object.getPrototypeOf(Derived.prototype);
+//     return `${__super.sayHi.call(this)}! How are u doing? (is Derived)`;
+//     // return `${super.sayHi()}! How are u doing? (is Derived)`;
+//   }
+// }
+
+// const derived = new Derived("th");
+// console.log(derived.sayHi()); // Hi th (is Super)! How are u doing? (is Derived)
+
+const base = {
+  name: "Lee",
+  sayHi() {
+    return `Hi ${this.name}`;
+  },
+};
+
+const derived = {
+  __proto__: base,
+  sayHi() {
+    return `${super.sayHi()}. yeah~~`;
+  },
+};
+
+console.log(derived.sayHi()); // Hi Lee. yeah~~
+
+class Base {
+  static sayHi() {
+    return "Hi!!";
+  }
+}
+
+class Derived extends Base {
+  static sayHi() {
+    return `${super.sayHi()} i am derived!`;
+  }
+}
+
+console.log(Derived.sayHi()); // Hi!! i am derived!
+
+class Rectangle {
+  constructor(width, height) {
+    // 암묵적으로 빈 객체, 즉 인스턴스가 생성되고 this에 바인딩된다.
+    console.log(this); // ColorRectangle {}
+    // new 연산자와 함께 호출된 함수, 즉 new.target은 ColorRectangle 이다.
+    console.log(new.target); // [class ColorRectangle extends Rectangle]
+
+    // 생성된 인스턴스의 프로토타입으로 ColorRectangle.prototype 이 설정된다.
+    console.log(Object.getPrototypeOf(this) === ColorRectangle.prototype); // true
+    console.log(this instanceof ColorRectangle); // true
+    console.log(this instanceof Rectangle); // true
+    this.width = width;
+    this.height = height;
+
+    console.log(this); // ColorRectangle { width: 2, height: 4 }
+  }
+
+  getArea() {
+    return this.width * this.height;
+  }
+
+  toString() {
+    return `width = ${this.width}, height = ${this.height}`;
+  }
+}
+
+class ColorRectangle extends Rectangle {
+  constructor(width, height, color) {
+    super(width, height);
+
+    console.log(this); // ColorRectangle { width: 2, height: 4 }
+
+    // 초기화
+    this.color = color;
+
+    console.log(this); // ColorRectangle { width: 2, height: 4, color: 'red' }
+  }
+
+  toString() {
+    return `${super.toString()}, color = ${this.color}`;
+  }
+}
+
+const colorRectangle = new ColorRectangle(2, 4, "red");
+console.log(colorRectangle); // ColorRectangle { width: 2, height: 4, color: 'red' }
+console.log(colorRectangle.getArea()); // 8
+console.log(colorRectangle.toString()); // width = 2, height = 4, color = red
