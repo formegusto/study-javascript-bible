@@ -687,7 +687,8 @@ class MyArray extends Array {
 }
 
 const myArray = new MyArray(1, 1, 2, 3);
-console.log(myArray); // MyArray(4) [ 1, 1, 2, 3 ]
+console.log(myArray.uniq() instanceof MyArray); // false
+console.log(myArray.uniq() instanceof Array); // true
 
 console.log(myArray.uniq()); // [ 1, 2, 3 ]
 console.log(myArray.average()); // 1.75
