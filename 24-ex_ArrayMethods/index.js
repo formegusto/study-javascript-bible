@@ -457,3 +457,70 @@
   console.log(arr); // [ 4, 3, 2, 1 ]
   console.log(result); // [ 4, 3, 2, 1 ]
 }
+
+// Array.prototype.fill
+{
+  const arr = [1, 2, 3];
+
+  // 인수로 전달받은 값 0을 배열의 처음부터 끝까지 요소로 채운다.
+  arr.fill(0);
+  console.log(arr); // [ 0, 0, 0 ]
+
+  // 인수로 전달받은 값 0을 배열의 인덱스 1부터 끝까지 요소로 채운다.
+  const arr2 = [1, 2, 3];
+
+  arr2.fill(0, 1);
+  console.log(arr2); // [ 1, 0, 0 ]
+
+  // 인수로 전달받은 값 0을 인덱스 1부터 3이전까지 요소로 채운다.
+  const arr3 = [1, 2, 3, 4, 5];
+
+  arr3.fill(0, 1, 3);
+  console.log(arr3); // [ 1, 0, 0, 4, 5 ]
+
+  // fill 메서드를 활용하여 배열을 생성하면서 특정 값으로 요소를 채울 수 있다.
+  const arr4 = new Array(3);
+  console.log(arr4); // [ <3 empty items> ]
+
+  const result = arr4.fill(1);
+  console.log(arr4); // [ 1, 1, 1 ]
+  console.log(result); // [ 1, 1, 1 ]
+
+  // fill 메서드로 요소를 채울 경우 모든 요소를 하나의 값만으로 채울 수밖에 없다는 단점이 있다.
+  // 하지만 Array.from 메서드를 사용하면 두 번째 인수로 전달한 콜백 함수를 통해 요소값을 만들면서 배열을 채울 수 있다.
+  const sequence = (length = 0) => Array.from({ length }, (_, i) => i);
+  console.log(sequence(3)); // [ 0, 1, 2 ]
+}
+
+// Array.prototype.includes
+{
+  const arr = [1, 2, 3];
+
+  console.log(arr.includes(1)); // true
+  console.log(arr.includes(100)); // false
+
+  console.log(arr.includes(1, 1)); // false
+  console.log(arr.includes(3, -1)); // true
+
+  // indexOf도 -1 반환을 통해 true false 여부를 확인할 수 있다.
+  // 하지만 이의 단점은 -1인지 확인하는 조건식이 필요하고,
+  // 배열에 NaN이 포함되어 있는지 확인할 수 없다는 문제가 있다.
+  console.log([NaN].indexOf(NaN) !== -1); // false : 존재하지 않는다.
+  console.log([NaN].includes(NaN)); // true
+}
+
+// Array.prototype.flat
+{
+  console.log([1, [2, 3, 4]].flat()); // [ 1, 2, 3, 4 ]
+
+  // 중첩 배열을 평탄화할 깊이를 인수로 전달할 수 있다.
+  // 인수를 생략할 경우 기본값은 1이다.
+  console.log([1, [2, [3, [4]]]].flat()); // [ 1, 2, [ 3, [ 4 ] ] ]
+  console.log([1, [2, [3, [4]]]].flat(1)); // [ 1, 2, [ 3, [ 4 ] ] ]
+
+  console.log([1, [2, [3, [4]]]].flat(2)); // [ 1, 2, 3, [ 4 ] ]
+  console.log([1, [2, [3, [4]]]].flat().flat()); // [ 1, 2, 3, [ 4 ] ]
+
+  // 중첩 배열을 평탄화하기 위한 깊이 값을 Infinity로 지정하여 중첩 배열 모두를 평탄화한다.
+  console.log([1, [2, [3, [4]]]].flat(Infinity)); // [ 1, 2, 3, 4 ]
+}
