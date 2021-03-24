@@ -102,7 +102,7 @@
     }
 
     Stack.prototype = {
-      ...Stack,
+      constructor: Stack,
       push(value) {
         return this.arr.push(value);
       },
@@ -159,4 +159,120 @@
 
   stack.pop();
   console.log(stack.entries()); // [ 1, 2 ]
+}
+
+// Array.prototype.unshift
+{
+  const arr = [1, 2];
+
+  // 선두에 추가하고, length 반환
+  let result = arr.unshift(3, 4);
+  console.log(result); //
+
+  console.log(arr); // [ 3, 4, 1, 2 ]
+}
+
+// 스프레드 문법
+{
+  const arr = [1, 2];
+  const newArr = [3, 4, ...arr];
+
+  console.log(newArr);
+}
+
+// Array.prototype.shift
+{
+  const arr = [1, 2];
+
+  let result = arr.shift();
+  console.log(result); // 1
+
+  console.log(arr); // [ 2 ]
+}
+
+// Queue (Function Ver.)
+{
+  const Queue = (function () {
+    function Queue(arr = []) {
+      if (!Array.isArray(arr)) {
+        return new TypeError(`${arr} is not array!!`);
+      }
+      this.arr = arr;
+    }
+
+    Queue.prototype = {
+      constructor: Queue,
+      enqueue(value) {
+        return this.arr.push(value);
+      },
+      dequeue() {
+        return this.arr.shift();
+      },
+      entries() {
+        return [...this.arr];
+      },
+    };
+
+    return Queue;
+  })();
+
+  const queue = new Queue([1, 2]);
+  console.log(queue.entries()); // [ 1, 2 ]
+
+  queue.enqueue(3);
+  console.log(queue.entries()); // [ 1, 2, 3 ]
+
+  queue.dequeue();
+  console.log(queue.entries()); // [ 2, 3 ]
+}
+
+// Queue (Class Ver.)
+{
+  class Queue {
+    // is private!
+    #arr;
+
+    constructor(arr = []) {
+      if (!Array.isArray(arr)) {
+        return new TypeError(`${arr} is not array!!`);
+      }
+      this.#arr = arr;
+    }
+
+    enqueue(value) {
+      return this.#arr.push(value);
+    }
+    dequeue() {
+      return this.#arr.shift();
+    }
+    entries() {
+      return [...this.#arr];
+    }
+  }
+
+  const queue = new Queue([1, 2]);
+  console.log(queue.entries()); // [ 1, 2 ]
+
+  queue.enqueue(3);
+  console.log(queue.entries()); // [ 1, 2, 3 ]
+
+  queue.dequeue();
+  console.log(queue.entries()); // [ 2, 3 ]
+}
+
+// Array.prototype.concat
+{
+  const arr1 = [1, 2];
+  const arr2 = [3, 4];
+
+  let result = arr1.concat(arr2);
+  console.log(result); // [ 1, 2, 3, 4 ]
+  // 원본 배열은 변경되지 않는다.
+  console.log(arr1); // [ 1, 2 ]
+
+  result = arr1.concat(3);
+  console.log(result); // [ 1, 2, 3 ]
+
+  result = arr1.concat([3, 4], 5);
+  console.log(result); // [ 1, 2, 3, 4, 5 ]
 }
