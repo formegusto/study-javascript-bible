@@ -276,3 +276,184 @@
   result = arr1.concat([3, 4], 5);
   console.log(result); // [ 1, 2, 3, 4, 5 ]
 }
+
+// Array.prototype.concat == push
+{
+  const pushArr1 = [1, 2];
+  pushArr1.push(3, 4);
+  console.log(pushArr1); // [ 1, 2, 3, 4 ]
+
+  let result = [1, 2].concat(3, 4);
+  console.log(result);
+}
+
+// Array.prototype.concat == unshift
+{
+  const unshiftArr1 = [3, 4];
+  unshiftArr1.unshift(1, 2);
+  console.log(unshiftArr1); // [ 1, 2, 3, 4 ]
+
+  let result = [1, 2].concat(3, 4);
+  console.log(result);
+}
+
+// spread
+{
+  let result = [1, 2].concat([3, 4]);
+  console.log(result);
+
+  result = [...[1, 2], ...[3, 4]];
+  console.log(result);
+}
+
+// Array.prototype.splice
+{
+  const arr = [1, 2, 3, 4];
+
+  const result = arr.splice(1, 2, 20, 30);
+
+  console.log(result); // [ 2, 3 ]
+  console.log(arr); // [ 1, 20, 30, 4 ]
+}
+
+// Array.prototype.splice (deleteCount = 0)
+{
+  const arr = [1, 2, 3, 4];
+
+  const result = arr.splice(1, 0, 100);
+
+  console.log(result); // []
+  console.log(arr); // [ 1, 100, 2, 3, 4 ]
+}
+
+// Array.prototype.splice (items = undefined)
+{
+  const arr = [1, 2, 3, 4];
+
+  const result = arr.splice(1, 2);
+
+  console.log(result); // [ 2, 3 ]
+  console.log(arr); // [ 1, 2 ]
+}
+
+// Array.prototype.splice (deleteCount = undefined)
+{
+  const arr = [1, 2, 3, 4];
+
+  const result = arr.splice(1);
+
+  console.log(result); // [ 2, 3, 4 ]
+  console.log(arr); // [ 1 ]
+}
+
+// Array.prototype.splice + Array.prototype.indexOf
+{
+  const arr = [1, 2, 3, 4];
+
+  function remove(array, item) {
+    const removeIdx = array.indexOf(item);
+
+    if (removeIdx !== -1) array.splice(removeIdx, 1);
+
+    return array;
+  }
+
+  console.log(remove(arr, 2)); // [ 1, 3, 4 ]
+  console.log(remove(arr, 100)); // [ 1, 3, 4 ]
+}
+
+// Array.prototype.filter
+{
+  const arr = [1, 2, 3, 1, 2];
+
+  const remove = (array, item) => array.filter((arrMem) => arrMem !== item);
+
+  console.log(remove(arr, 1)); // [ 2, 3, 2 ]
+  console.log(remove(arr, 2)); // [ 1, 3, 1 ]
+}
+
+// Array.prototype.slice
+{
+  const arr = [1, 2, 3];
+
+  console.log(arr.slice(0, 1)); // [ 1 ]
+  console.log(arr.slice(1, 2)); // [ 2 ]
+
+  console.log(arr.slice(1)); // [ 2, 3 ]
+
+  console.log(arr.slice()); // [ 1, 2, 3 ]
+
+  console.log(arr.slice(-1)); // [ 3 ]
+
+  // 원본 배열은 변경되지 않는다.
+  console.log(arr); // [ 1, 2, 3 ]
+
+  // 복사본은 얕은 복사 (shadow copy)를 통해 생성된다.
+  const copy = arr.slice();
+  console.log(copy); // [ 1, 2, 3 ]
+  console.log(copy === arr); // false
+
+  const todos = [
+    { id: 1, content: "HTML", completed: false },
+    { id: 2, content: "CSS", completed: true },
+    { id: 3, content: "Javascript", completed: false },
+  ];
+
+  // 얕은 복사
+  // const _todos = [...todos]
+  const _todos = todos.slice();
+
+  console.log(_todos === todos); // false : 별개의 객체임을 의미
+  console.log(_todos[0] === todos[0]); // true : 하지만 배열 참조 값은 같다 이것은 얕은 복사다.
+}
+
+// Array.prototype.slice + array-like object
+{
+  function sumES5() {
+    var arr = Array.prototype.slice.call(arguments);
+    console.log(arr);
+
+    return arr.reduce(function (pre, cur) {
+      return pre + cur;
+    }, 0);
+  }
+  console.log(sumES5(1, 2, 3));
+
+  // 다른 방법으로 Array.from 메서드를 사용하면 더욱 쉽게할 수 있다.
+  // Array.from 메서드는 유사 배열 객체 또는 이터러블 객체를 배열로 반환한다.
+  function sumES6() {
+    const arr = Array.from(arguments);
+    console.log(arr);
+
+    return arr.reduce((pre, cur) => pre + cur, 0);
+  }
+  console.log(sumES6(1, 2, 3, 4));
+
+  // arguments는 유사배열객체이면서, 이터러블 객체이다.
+  // 이터러블 객체는 ES6의 스프레드 문법을 사용하여 간단하게 배열로 변경할 수 있다.
+  function sumSpread() {
+    const arr = [...arguments];
+    console.log(arr);
+
+    return arr.reduce((pre, cur) => pre + cur, 0);
+  }
+  console.log(sumSpread(1, 2, 3, 4, 5));
+}
+
+// Array.prototype.join
+{
+  const arr = [1, 2, 3, 4];
+
+  console.log(arr.join()); // 1,2,3,4
+  console.log(arr.join("")); // 1234
+  console.log(arr.join(":")); // 1:2:3:4
+}
+
+// Array.prototype.reverse
+{
+  const arr = [1, 2, 3, 4];
+  const result = arr.reverse();
+
+  console.log(arr); // [ 4, 3, 2, 1 ]
+  console.log(result); // [ 4, 3, 2, 1 ]
+}
