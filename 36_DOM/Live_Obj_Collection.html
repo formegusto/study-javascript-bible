@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .red { color: red; }
+        .blue { color: blue; }
+    </style>
+</head>
+<body>
+    <ul id="fruits">
+        <li class="red">Apple</li>
+        <li class="red">Banana</li>
+        <li class="red">Orange</li>
+    </ul>
+</body>
+<script>
+    const $elems = document.getElementsByClassName('red');
+
+    console.log($elems);
+    // for(let i=$elems.length - 1;i>=0;i--){
+    //     $elems[i].className="blue";
+    // }
+
+    // let i = 0;
+    // while($elems.length > 0) {
+    //     $elems[i].className="blue";
+    // }
+    [...$elems].forEach(elem => elem.className="blue");
+
+    console.log($elems);
+</script>
+</html>

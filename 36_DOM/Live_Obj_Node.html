@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .red { color: red; }
+        .blue { color: blue; }
+    </style>
+</head>
+<body>
+    <ul id="fruits">
+        <li class="red">Apple</li>
+        <li class="red">Banana</li>
+        <li class="red">Orange</li>
+    </ul>
+</body>
+<script>
+    // const $elems = document.querySelectorAll('.red');
+
+    // // NodeList 객체는 NodeList.prototype.forEach 메서드를 상속받아 사용할 수 있다.
+    // $elems.forEach(elem => elem.className = 'blue');
+    const $fruits = document.getElementById("fruits");
+
+    const { childNodes } = $fruits;
+    console.log(childNodes instanceof NodeList);
+
+    // 공백 테스트 노드를 포함해 많다.
+    console.log(childNodes);
+
+    Array.from(childNodes).forEach(elem => $fruits.removeChild(elem));
+
+    // for(let i = 0;i < childNodes.length ; i++)
+    //     // 실시간 반영으로 다 지워지지는 않는다.
+    //     $fruits.removeChild(childNodes[i]);
+
+    console.log(childNodes);
+</script>
+</html>

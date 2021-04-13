@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <ul id="fruits">
+        <li id="apple">Apple</li>
+        <li id="banana">Banana</li>
+        <li id="orange">Orange</li>
+    </ul>
+    <ul>
+        <li>HTML</li>
+    </ul>
+    <script>
+        // const $elems = document.getElementsByTagName('li');
+
+        // [...$elems].forEach(elem => elem.style.color = 'red');
+
+        // const iterator = $elems[Symbol.iterator]();
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        const $lisFromDocument = document.getElementsByTagName('li');
+        console.log("lis From Document----")
+        console.log($lisFromDocument);
+        console.log();
+
+        const $fruits = document.getElementById('fruits');
+        const $lisFromFruits = $fruits.getElementsByTagName('li');
+        console.log("lis From Fruits----");
+        console.log($lisFromFruits);
+        console.log();
+    </script>
+</body>
+</html>
