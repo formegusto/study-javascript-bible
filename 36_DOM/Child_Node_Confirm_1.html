@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <ul id="fruits">
+        </ul>
+    </body>
+    <script>
+        const $fruits = document.getElementById('fruits');
+
+        console.log($fruits.hasChildNodes()); // true
+            // -> 텍스트 노드를 포함하여 자식 노드의 존재를 확인한다.
+
+        // 텍스트 노드를 제외하고 탐색하는 children 프로퍼티를 이용하여
+        // 요소노드의 존재여부를 확인한다.
+        // 0을 반환하기 때문에 !!로 타입변환한다.
+        console.log(!!$fruits.children.length); // false
+
+        // childElementCount
+        // 0을 반환하기 때문에 !!로 타입변환한다.
+        console.log(!!$fruits.childElementCount); // false
+    </script>
+</html>
