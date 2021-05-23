@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <input id="user" type="text" value="ungmo2">
+    <script>
+        const $input = document.getElementById('user');
+
+        $input.oninput = () => {
+            console.log('HTML Attribute Value =>', $input.getAttribute('value'));
+            console.log('DOM Property Value =>', $input.value);
+        }
+    </script>
+</body>
+</html>
