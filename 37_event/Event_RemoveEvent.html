@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button>Click me!</button>
+    <script>
+        const $button = document.querySelector('button');
+
+        const handleClick = () => console.log('button click!');
+
+        $button.addEventListener('click', handleClick);
+        
+        $button.removeEventListener('click', handleClick, true); // 실패
+        $button.removeEventListener('click', handleClick);
+    </script>
+</body>
+</html>
