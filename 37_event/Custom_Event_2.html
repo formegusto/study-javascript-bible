@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button class="btn">Click me</button>
+    <script>
+        const $button = document.querySelector(".btn");
+
+        $button.addEventListener('foo', e => {
+            alert(e.detail.message);
+        })
+
+        const customEvent = new CustomEvent('foo', {
+            detail: { message: 'Hello' }
+        });
+
+        $button.dispatchEvent(customEvent);
+    </script>    
+</body>
+</html>

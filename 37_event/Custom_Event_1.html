@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button class="btn">Click me</button>
+    <script>
+        const $button = document.querySelector(".btn");
+
+        $button.addEventListener('click', e => {
+            console.log(e);
+            alert(`${e} clicked!`);
+        })
+
+        const customEvent = new MouseEvent('click');
+
+        // 커스텀 이벤트 디스패치(동기 처리), click 이벤트가 발생한다
+        $button.dispatchEvent(customEvent);
+    </script>
+</body>
+</html>
