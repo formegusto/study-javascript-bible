@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    
+    <label>User name <input type="text"/></label>
+    <em class="msg"></em>
+    <script>
+        const MIN_USER_NAME_LENGTH = 5; // 이름 최소 길이
+        const $input = document.querySelector("input[type=text]");
+        const $msg = document.querySelector('.msg');
+
+        const checkUserNameLength = min = e => {
+            $msg.textContent
+                = $input.value.length < min ? `이름은 ${min}자 이상 입력해주세요.` : '';
+        }
+
+        $input.onblur = checkUserNameLength(MIN_USER_NAME_LENGTH);
+    </script>
 </body>
 </html>
