@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button class="btn1">0</button>
+    <button class="btn2">0</button>
+    <script>
+        const $button1 = document.querySelector(".btn1");
+        const $button2 = document.querySelector(".btn2");
+
+        $button1.onclick = (e) => {
+            // 화살표 함수 내부의 this는 상위 스코프의 this를 가리킨다.
+            console.log(this); // window
+            console.log(e.currentTarget); // $button1
+            console.log(this === e.currentTarget); // false
+
+            ++this.textContent;
+        }
+
+        $button2.addEventListener('click', (e) => {
+            // 화살표 함수 내부의 this는 상위 스코프의 this를 가리킨다.
+            console.log(this); // window
+            console.log(e.currentTarget); // $button2
+            console.log(this === e.currentTarget); // false
+
+            ++this.textContent;
+        });
+    </script>
+</body>
+</html>

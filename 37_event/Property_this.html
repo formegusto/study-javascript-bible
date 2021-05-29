@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button class="btn1">0</button>
+    <button class="btn2">0</button>
+    <script>
+        const $button1 = document.querySelector(".btn1");
+        const $button2 = document.querySelector(".btn2");
+
+        $button1.onclick = function(e) {
+            // this는 이벤트를 바인딩한 DOM 요소를 가리킨다.
+            console.log(this); // $button1
+            console.log(e.currentTarget); // $button1
+            console.log(this === e.currentTarget); // true
+
+            ++this.textContent;
+        }
+
+        $button2.addEventListener('click', function(e) {
+            // this는 이벤트를 바인딩한 DOM 요소를 가리킨다.
+            console.log(this); // $button2
+            console.log(e.currentTarget); // $button2
+            console.log(this === e.currentTarget); // true
+
+            ++this.textContent;
+        })
+    </script>
+</body>
+</html>
