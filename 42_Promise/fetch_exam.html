@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const request = {
+            get(url) {
+                return fetch(url);
+            },
+            post(url, payload) {
+                return fetch(url, {
+                    method: 'POST',
+                    headers: { "Content-Type": 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+            },
+            patch(url, payload) {
+                return fetch(url, {
+                    method: 'PATCH',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                })
+            },
+            delete(url) {
+                return fetch(url, { method: 'DELETE' })
+            }
+        }
+
+        request.get("https://jsonplaceholder.typicode.com/todos/1")
+            .then(response => response.json())
+            .then(json => console.log("GET", json))
+
+        request.post("https://jsonplaceholder.typicode.com/todos", {
+            userId: 1,
+            title: 'JavaScript',
+            completed: false
+        })
+            .then(response => response.json())
+            .then(json => console.log("POST", json))
+
+        request.patch("https://jsonplaceholder.typicode.com/todos/1", {
+            completed: true
+        })
+            .then(response => response.json())
+            .then(json => console.log("PATCH", json))
+
+        request.delete("https://jsonplaceholder.typicode.com/todos/1")
+            .then(response => response.json())
+            .then(json => console.log("DELETE", json))
+    </script>
+</body>
+
+</html>
