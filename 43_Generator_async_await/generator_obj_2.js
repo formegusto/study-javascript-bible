@@ -1,14 +1,14 @@
 function* getFunc() {
-    try {
-        yield 1;
-        yield 2;
-        yield 3;
-    } catch(e) {
-        console.error(e);
-    }
+  try {
+    yield 1;
+    yield 2;
+    yield 3;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 const generator = getFunc();
 console.log(generator.next()); // { value: 1, done: false }
 // console.log(generator.return('End!')); // { value: 'End!', done: true }
-console.log(generator.throw("Error!"));
+console.log(generator.throw("Error!")); // { value: undefined, done: true }
